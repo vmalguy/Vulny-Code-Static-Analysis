@@ -104,8 +104,11 @@ def check_declaration(content, vuln, path):
     for include in includes:
 		relative_include = os.path.dirname(path)+"/"
 		path_include     = relative_include + include[1]
-		with open(path_include, 'r') as f:
-			content = f.read() + content
+                if os.path.isfile(path_include):
+		    with open(path_include, 'r') as f:
+			    content = f.read() + content
+                else:
+                    content = ""
 
 	# Extract declaration - for ($something as $somethingelse)
     regex_declaration2 = re.compile("\$(.*?)([\t ]*)as(?!=)([\t ]*)\$"+vuln[1:])
